@@ -43,12 +43,16 @@
         myFrm.TopMost = True 'show on top of all other menus
     End Sub
 
+    Private ProdTestStarted As Boolean = False 'flag to keep track when production test starts, so that we don't display menu when closing setup file
     Public Sub StartStop(ByRef doStart As Boolean) Implements Quasi97.iHOption.StartStop
         'this method will be called by Quasi97 when production test finishes
-        If Not doStart And qst.QuasiParameters.SecurityLevel = SecLevel.LOperator Then
+        If qst.QuasiParameters.SecurityLevel <> SecLevel.LOperator Then Return
+        If Not doStart And prodteststarted Then
             ShowUserMenu()
+            ProdTestStarted = False
         Else
             If Not myFrm.IsDisposed Then myFrm.Hide()
+            ProdTestStarted = True
         End If
     End Sub
 
