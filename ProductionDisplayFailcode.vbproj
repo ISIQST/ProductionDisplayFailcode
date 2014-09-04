@@ -7,14 +7,16 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{33B7AB94-0098-4397-9743-D322F2E9E5BD}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>ProductionDisplayFailcode.My.MyApplication</StartupObject>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
     <RootNamespace>ProductionDisplayFailcode</RootNamespace>
     <AssemblyName>ProductionDisplayFailcode</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsForms</MyType>
+    <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -64,8 +66,8 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Release\</OutputPath>
+    <DefineTrace>false</DefineTrace>
+    <OutputPath>bin\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <Optimize>true</Optimize>
@@ -77,7 +79,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Quasi97">
-      <HintPath>..\..\NET\Quasi97.dll</HintPath>
+      <HintPath>..\NET\Quasi97.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
