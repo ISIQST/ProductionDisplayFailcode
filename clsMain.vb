@@ -32,11 +32,17 @@
         myFrm.failcodelist.Items.Clear()
 
         myFrm.failcodelist.ForeColor = Color.Green
-        'extract most recent failcodes
-        For i = 0 To ProdTest.colResults.Count - 1
-            myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).FailCodeHex)
-            If ProdTest.colResults(i).FailCode <> 0 Then myFrm.failcodelist.ForeColor = Color.Red
-        Next i
+        If qst.OptionsParameters.Grading Then 'if grading is disabled then no need to check the list, there will be no failed items
+            'extract most recent failcodes
+            For i = 0 To ProdTest.colResults.Count - 1
+                If ProdTest.colResults(i).PASSLIST.Count = 0 Then 'only show parts that failed some grade
+                    myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).FailCodeHex)
+                    If ProdTest.colResults(i).FailCode <> 0 Then myFrm.failcodelist.ForeColor = Color.Red
+                End If
+            Next i
+        End If
+
+        If myFrm.failcodelist.Items.Count = 0 Then Return 'don't show if there are no failed items
 
         'the form default location is center screen
         myFrm.Show() 'show the form in the center of the screen
@@ -50,7 +56,7 @@
         If Not doStart And prodteststarted Then
             ShowUserMenu()
             ProdTestStarted = False
-        Else
+        ElseIf doStart Then 'to avoid hide right away
             If Not myFrm.IsDisposed Then myFrm.Hide()
             ProdTestStarted = True
         End If
