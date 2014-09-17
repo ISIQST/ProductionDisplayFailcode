@@ -36,7 +36,8 @@
             'extract most recent failcodes
             For i = 0 To ProdTest.colResults.Count - 1
                 If ProdTest.colResults(i).PASSLIST.Count = 0 Then 'only show parts that failed some grade
-                    myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).FailCodeHex)
+                    'myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).FailCodeHex)
+                    myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).GetResult("DEFECT_CODE_BY_HEAD - Production").ToString)
                     If ProdTest.colResults(i).FailCode <> 0 Then myFrm.failcodelist.ForeColor = Color.Red
                 End If
             Next i
@@ -47,6 +48,8 @@
         'the form default location is center screen
         myFrm.Show() 'show the form in the center of the screen
         myFrm.TopMost = True 'show on top of all other menus
+
+        qst.GetMainModNew.RootForm.Focus()
     End Sub
 
     Private ProdTestStarted As Boolean = False 'flag to keep track when production test starts, so that we don't display menu when closing setup file
