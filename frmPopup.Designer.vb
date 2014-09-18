@@ -35,14 +35,14 @@ Partial Class frmPopup
         Me.failcodelist.ItemHeight = 37
         Me.failcodelist.Location = New System.Drawing.Point(12, 12)
         Me.failcodelist.Name = "failcodelist"
-        Me.failcodelist.Size = New System.Drawing.Size(394, 300)
+        Me.failcodelist.Size = New System.Drawing.Size(583, 300)
         Me.failcodelist.TabIndex = 0
         '
         'frmPopup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(418, 316)
+        Me.ClientSize = New System.Drawing.Size(607, 323)
         Me.Controls.Add(Me.failcodelist)
         Me.KeyPreview = True
         Me.MaximizeBox = False
