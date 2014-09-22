@@ -30,19 +30,19 @@ Partial Class frmPopup
         Me.failcodelist.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.failcodelist.Font = New System.Drawing.Font("Microsoft Sans Serif", 24.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.failcodelist.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.failcodelist.FormattingEnabled = True
-        Me.failcodelist.ItemHeight = 37
+        Me.failcodelist.ItemHeight = 31
         Me.failcodelist.Location = New System.Drawing.Point(12, 12)
         Me.failcodelist.Name = "failcodelist"
-        Me.failcodelist.Size = New System.Drawing.Size(583, 300)
+        Me.failcodelist.Size = New System.Drawing.Size(608, 252)
         Me.failcodelist.TabIndex = 0
         '
         'frmPopup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(607, 323)
+        Me.ClientSize = New System.Drawing.Size(632, 279)
         Me.Controls.Add(Me.failcodelist)
         Me.KeyPreview = True
         Me.MaximizeBox = False

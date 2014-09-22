@@ -26,7 +26,7 @@
     Public Sub ShowUserMenu() Implements Quasi97.iHOption.ShowUserMenu
         If qst Is Nothing Then Return
         If myFrm.IsDisposed Then myFrm = New frmPopup
-
+        Dim Str$ = ""
         'connect to production test
         Dim ProdTest As Quasi97.clsTestSeqNET = CType(qst.QuasiParameters.TestObj("Production", 1).TestPtr, Quasi97.clsTestSeqNET)
         myFrm.failcodelist.Items.Clear()
@@ -35,12 +35,13 @@
         If qst.OptionsParameters.Grading Then 'if grading is disabled then no need to check the list, there will be no failed items
             'extract most recent failcodes
             For i = 0 To ProdTest.GradeSummary.Count - 1
-                myFrm.failcodelist.Items.Add(ProdTest.GradeSummary(i).Head & " - " & ProdTest.GradeSummary(i).ResName & " = " & ProdTest.GradeSummary(i).ResValue)
+                Str = ProdTest.GradeSummary(i).Head & " - " & ProdTest.GradeSummary(i).ResName & " = " & ProdTest.GradeSummary(i).ResValue
+                myFrm.failcodelist.Items.Add(Str)
             Next
         End If
 
         If myFrm.failcodelist.Items.Count = 0 Then Return 'don't show if there are no failed items
-
+        myFrm.ResizePerContent()
         'the form default location is center screen
         myFrm.Show() 'show the form in the center of the screen
         myFrm.TopMost = True 'show on top of all other menus
