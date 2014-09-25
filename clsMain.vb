@@ -9,41 +9,13 @@
     Private qst As Quasi97.Application
     Private myFrm As New frmPopup
 
-    Public Sub Initialize3(InstanceName As String, ByRef AppPtr As Object) Implements Quasi97.iHOption.Initialize3
-        qst = AppPtr    'save pointer to QST workspace for future use
-    End Sub
-
-    Public Sub Terminate() Implements Quasi97.iHOption.Terminate
-        qst = Nothing   'disconnect pointer from QSt workspace
-    End Sub
-
-    Public ReadOnly Property EventInterests As Integer Implements Quasi97.iHOption.EventInterests
-        Get
-            Return Quasi97.clsOptionManager.eEventInt.eStartStop 'let Quasi97 know that you want it to call startstop function on your module
-        End Get
-    End Property
-
-    Public Sub ShowUserMenu() Implements Quasi97.iHOption.ShowUserMenu
-        If qst Is Nothing Then Return
+    Private Sub NotifyProductionCompleteHandler(ByVal msg$, ByVal msgColor As Integer)
         If myFrm.IsDisposed Then myFrm = New frmPopup
 
         'connect to production test
-        Dim ProdTest As Quasi97.clsTestSeqNET = CType(qst.QuasiParameters.TestObj("Production", 1).TestPtr, Quasi97.clsTestSeqNET)
         myFrm.failcodelist.Items.Clear()
-
-        myFrm.failcodelist.ForeColor = Color.Green
-        If qst.OptionsParameters.Grading Then 'if grading is disabled then no need to check the list, there will be no failed items
-            'extract most recent failcodes
-            For i = 0 To ProdTest.colResults.Count - 1
-                If ProdTest.colResults(i).PASSLIST.Count = 0 Then 'only show parts that failed some grade
-                    'myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).FailCodeHex)
-                    myFrm.failcodelist.Items.Add(ProdTest.colResults(i).Head & " - " & ProdTest.colResults(i).GetResult("DEFECT_CODE_BY_HEAD - Production").ToString)
-                    If ProdTest.colResults(i).FailCode <> 0 Then myFrm.failcodelist.ForeColor = Color.Red
-                End If
-            Next i
-        End If
-
-        If myFrm.failcodelist.Items.Count = 0 Then Return 'don't show if there are no failed items
+        myFrm.failcodelist.ForeColor = Color.FromArgb(msgColor)
+        myFrm.failcodelist.Items.Add(msg)
 
         'the form default location is center screen
         myFrm.Show() 'show the form in the center of the screen
@@ -52,20 +24,32 @@
         qst.GetMainModNew.RootForm.Focus()
     End Sub
 
-    Private ProdTestStarted As Boolean = False 'flag to keep track when production test starts, so that we don't display menu when closing setup file
-    Public Sub StartStop(ByRef doStart As Boolean) Implements Quasi97.iHOption.StartStop
-        'this method will be called by Quasi97 when production test finishes
-        If qst.QuasiParameters.SecurityLevel <> SecLevel.LOperator Then Return
-        If Not doStart And prodteststarted Then
-            ShowUserMenu()
-            ProdTestStarted = False
-        ElseIf doStart Then 'to avoid hide right away
-            If Not myFrm.IsDisposed Then myFrm.Hide()
-            ProdTestStarted = True
-        End If
+    Public Sub Initialize3(InstanceName As String, ByRef AppPtr As Object) Implements Quasi97.iHOption.Initialize3
+        qst = AppPtr    'save pointer to QST workspace for future use
+        AddHandler qst.GetMainModNew.evNotifyProductionComplete, AddressOf NotifyProductionCompleteHandler
     End Sub
 
+    Public Sub Terminate() Implements Quasi97.iHOption.Terminate
+        If qst IsNot Nothing Then RemoveHandler qst.GetMainModNew.evNotifyProductionComplete, AddressOf NotifyProductionCompleteHandler
+        qst = Nothing   'disconnect pointer from QSt workspace
+    End Sub
+
+    Public ReadOnly Property EventInterests As Integer Implements Quasi97.iHOption.EventInterests
+        Get
+            Return 0 '
+        End Get
+    End Property
+
 #Region "Unused"
+
+    Public Sub ShowUserMenu() Implements Quasi97.iHOption.ShowUserMenu
+        'do nothing
+    End Sub
+
+    Public Sub StartStop(ByRef doStart As Boolean) Implements Quasi97.iHOption.StartStop
+
+    End Sub
+
     Public Sub AddNotifier(ByRef objnot As Object) Implements Quasi97.iHOption.AddNotifier
         'do nothing
     End Sub
